@@ -4,6 +4,8 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 
 #include <cinder/app/App.h>
+#include <Box2D/Box2D.h>
+#include "Engine.h"
 
 
 namespace myapp {
@@ -15,6 +17,9 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
+
+ private:
+  Engine engine;
 };
 
 }  // namespace myapp
