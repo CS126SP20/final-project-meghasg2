@@ -2,7 +2,7 @@
 // Created by Megha Ganesh on 4/21/20.
 //
 
-#include "direction.h"
+#include "Direction.h"
 
 #ifndef FINALPROJECT_ENGINE_H
 #define FINALPROJECT_ENGINE_H
