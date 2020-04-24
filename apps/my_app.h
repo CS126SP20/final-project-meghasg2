@@ -18,6 +18,7 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
+  void mouseMove(cinder::app::MouseEvent event) override;
 
  private:
   Engine engine;
@@ -36,6 +37,9 @@ class MyApp : public cinder::app::App {
   float timeStep;
   int32 velocityIterations = 6;
   int32 positionIterations = 2;
+
+  cinder::vec2 mousePos;
+  cinder::vec2 mouseVel;
 
   int count = 0;
 
