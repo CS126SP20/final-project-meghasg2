@@ -1,14 +1,12 @@
 //
-// Created by Megha Ganesh on 4/23/20.
+// Created by Megha Ganesh on 4/24/20.
 //
+
+#ifndef FINALPROJECT_CONVERSIONS_H
+#define FINALPROJECT_CONVERSIONS_H
 
 #include "cinder/Vector.h"
 #include "Box2D/Box2D.h"
-
-#ifndef FINALPROJECT_CONVERSION_H
-#define FINALPROJECT_CONVERSION_H
-
-#endif  // FINALPROJECT_CONVERSION_H
 
 struct Conversions {
 
@@ -39,3 +37,6 @@ struct Conversions {
     return rad * 180.0f/M_PI;
   }
 };
+
+
+#endif  // FINALPROJECT_CONVERSIONS_H
