@@ -24,6 +24,7 @@ class ParticleController {
   // store a pointer to the physics world from the main app
   b2World *world;
   std::list<Particle> particles;
+  int count = 0;
 };
 }
 #endif  // FINALPROJECT_PARTICLECONTROLLER_H

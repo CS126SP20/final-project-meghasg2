@@ -46,6 +46,8 @@ void MyApp::setup() {
 
   //pass world to ParticleController
   particleController.setup(*world);
+  //pass world to Platform
+  platform.setup(*world);
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
@@ -75,6 +77,7 @@ void MyApp::update() {
   if (mousePressed) {
     particleController.addParticle(mousePos);
   }
+  platform.mouse(mousePos);
   particleController.update();
   // step physics world
   float32 timeStep = 1.0f / 60.0f;
@@ -86,7 +89,8 @@ void MyApp::update() {
 void MyApp::draw() {
     cinder::gl::clear(Color(0, 0, 0));
     cinder::gl::enableAlphaBlending();
-    particleController.draw();
+    // particleController.draw();
+    platform.draw();
 }
 }
 

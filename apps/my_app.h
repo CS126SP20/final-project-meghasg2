@@ -8,6 +8,7 @@
 #include <Box2D/Box2D.h>
 #include "Conversions.h"
 #include "ParticleController.h"
+#include "Platform.h"
 
 namespace myapp {
 
@@ -34,6 +35,7 @@ class MyApp : public cinder::app::App {
   b2Vec2 gravity;
   b2World* world;
   particles::ParticleController particleController;
+  Platform platform;
 
 };
 

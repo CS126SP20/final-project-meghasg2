@@ -42,6 +42,7 @@ void Particle::draw() {
   cinder::Rectf rect(-size.x, -size.y, size.x, size.y);
   cinder::gl::drawSolidRect(rect);
   cinder::gl::popMatrices();
+
 }
 
 }

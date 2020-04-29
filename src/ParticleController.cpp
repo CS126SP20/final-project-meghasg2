@@ -7,8 +7,8 @@
 #include <list>
 
 #include "Conversions.h"
-#include "Globals.h"
 #include "cinder/Rand.h"
+#include "Globals.h"
 #include "cinder/Vector.h"
 
 namespace particles {
@@ -16,6 +16,7 @@ ParticleController::ParticleController() {
 }
 
 void ParticleController::setup(b2World &w) {
+
   world = &w;
 }
 
@@ -32,34 +33,40 @@ void ParticleController::update() {
 }
 
 void ParticleController::addParticle(const cinder::ivec2 &mousePos) {
-  Particle p = Particle();
-  b2BodyDef bodyDef;
-  bodyDef.type = b2_dynamicBody;
-  bodyDef.position.Set(Conversions::toPhysics(mousePos.x), Conversions::toPhysics(mousePos.y));
 
-  // instead of just creating body...
-  // b2Body* body = world->CreateBody(&bodyDef);
-  // do the following to create it with a circular reference to it's corresponding particle
-  bodyDef.userData = &p;
-  p.body = world->CreateBody(&bodyDef);
+    Particle p = Particle();
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(Conversions::toPhysics(mousePos.x),
+                         Conversions::toPhysics(mousePos.y));
 
-  b2PolygonShape dynamicBox;
-  float boxSizeX = cinder::Rand::randFloat(global::BOX_X_MIN, global::BOX_X_MAX);
-  float boxSizeY = cinder::Rand::randFloat(global::BOX_Y_MIN, global::BOX_Y_MAX);
+    // instead of just creating body...
+    // b2Body* body = world->CreateBody(&bodyDef);
+    // do the following to create it with a circular reference to it's corresponding particle
+    bodyDef.userData = &p;
+    p.body = world->CreateBody(&bodyDef);
 
-  dynamicBox.SetAsBox(Conversions::toPhysics(boxSizeX), Conversions::toPhysics(boxSizeY));
+    b2PolygonShape dynamicBox;
+    float boxSizeX =
+        cinder::Rand::randFloat(global::BOX_X_MIN, global::BOX_X_MAX);
+    float boxSizeY =
+        cinder::Rand::randFloat(global::BOX_Y_MIN, global::BOX_Y_MAX);
 
-  b2FixtureDef fixtureDef;
-  fixtureDef.shape = &dynamicBox;
-  fixtureDef.density = 1.0f;
-  fixtureDef.friction = 0.3f;
-  fixtureDef.restitution = 0.5f; // bounce
+    dynamicBox.SetAsBox(Conversions::toPhysics(boxSizeX),
+                        Conversions::toPhysics(boxSizeY));
 
-  p.body->CreateFixture(&fixtureDef);
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+    fixtureDef.restitution = 0.5f;  // bounce
 
-  // rest of initialization particle can do for itself
-  p.setup(cinder::vec2(boxSizeX, boxSizeY));
-  particles.push_back(p);
+    p.body->CreateFixture(&fixtureDef);
+
+    // rest of initialization particle can do for itself
+    p.setup(cinder::vec2(boxSizeX, boxSizeY));
+    particles.push_back(p);
+
 }
 
 void ParticleController::removeAll() {
