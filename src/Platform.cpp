@@ -21,10 +21,18 @@ Platform::Platform() {
 void Platform::setup(b2World &w) {
   world = &w;
 
-  bodyDef.type = b2_dynamicBody;
-  bodyDef.position.Set(Conversions::toPhysics(mousepos.x),
-                       Conversions::toPhysics(mousepos.y));
-  // bodyDef.angle = 0;
+
+
+
+
+
+
+
+
+
+  bodyDef.type = b2_kinematicBody;
+  bodyDef.position.Set(6, 13);
+  bodyDef.angle = 0;
   body = world->CreateBody(&bodyDef);
 
   b2PolygonShape* bodyShape = new b2PolygonShape;
@@ -36,12 +44,15 @@ void Platform::setup(b2World &w) {
 
   size = cinder::vec2(boxSizeX, boxSizeY);
 
-  bodyShape->SetAsBox(Conversions::toPhysics(cinder::app::getWindowWidth()/2),
-                      Conversions::toPhysics(1.0f));
+  // bodyShape->SetAsBox(Conversions::toPhysics(cinder::app::getWindowWidth()/2),
+  //                     Conversions::toPhysics(1.0f));
+
+
+  bodyShape->SetAsBox(40.0f, 1.0f);
+
   b2FixtureDef fixtureDef;
   fixtureDef.density = 1.0f;
-  fixtureDef.friction = 0.3f;
-  fixtureDef.restitution = 0.5f;  // bounce
+  fixtureDef.restitution = 1.0f;  // bounce
   fixtureDef.shape = bodyShape;
   body->CreateFixture(&fixtureDef);
 
@@ -51,8 +62,9 @@ void Platform::setup(b2World &w) {
   b2Vec2 vel = body->GetLinearVelocity();
   int time = 2.0f;
 
-  vel.x = (200-280)* WORLD_TO_BOX / (time);
-  vel.y = (100-180)*WORLD_TO_BOX/(time);
+  vel.x = (0-280)* WORLD_TO_BOX / (time);
+  //vel.y = (100-180)* WORLD_TO_BOX/(time);
+  body->SetLinearVelocity(vel);
 
 
 

@@ -18,8 +18,9 @@ namespace myapp {
 using cinder::app::KeyEvent;
 using cinder::Color;
 
-MyApp::MyApp() : gravity(0.0f, 10.0f) {
+MyApp::MyApp() : gravity(0.0f, 0.0f), platform_gravity(-20.0f, 0.0f) {
   world = new b2World(gravity);
+  platform_world = new b2World(platform_gravity);
 }
 
 MyApp::~MyApp() {
@@ -46,8 +47,44 @@ void MyApp::setup() {
 
   //pass world to ParticleController
   particleController.setup(*world);
+
+  b2BodyDef platGroundBodyDef;
+  platGroundBodyDef.position.Set(Conversions::toPhysics(
+      cinder::app::getWindowWidth()/4),
+                                 Conversions::toPhysics(cinder::app::getWindowHeight()/2)); // pos of ground
+  // 2. use world to create body
+  b2Body* platformGroundBody = world->CreateBody(&platGroundBodyDef);
+  // 3. define fixture
+  b2PolygonShape platformGroundBox;
+  platformGroundBox.SetAsBox(
+      Conversions::toPhysics(cinder::app::getWindowWidth()/4),
+      Conversions::toPhysics(3.0f)); // size the ground
+  // 4. create fixture on body
+  platformGroundBody->CreateFixture(&platformGroundBox, 0.0f);
+
+
+
+
+
   //pass world to Platform
+  /***
+    b2BodyDef platGroundBodyDef;
+    platGroundBodyDef.position.Set(Conversions::toPhysics(
+            cinder::app::getWindowWidth()/2),
+                               Conversions::toPhysics(cinder::app::getWindowHeight())); // pos of ground
+    // 2. use world to create body
+    b2Body* platformGroundBody = platform_world->CreateBody(&platGroundBodyDef);
+    // 3. define fixture
+    b2PolygonShape platformGroundBox;
+    platformGroundBox.SetAsBox(
+            Conversions::toPhysics(cinder::app::getWindowWidth()/2),
+            Conversions::toPhysics(1.0f)); // size the ground
+    // 4. create fixture on body
+    platformGroundBody->CreateFixture(&platformGroundBox, 0.0f);
+    ***/
+
   platform.setup(*world);
+
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
@@ -84,12 +121,13 @@ void MyApp::update() {
   int32 velocityIterations = 6;
   int32 positionIterations = 2;
   world->Step(timeStep, velocityIterations, positionIterations);
+  platform_world->Step(timeStep, velocityIterations, positionIterations);
 }
 
 void MyApp::draw() {
     cinder::gl::clear(Color(0, 0, 0));
     cinder::gl::enableAlphaBlending();
-    // particleController.draw();
+    particleController.draw();
     platform.draw();
 }
 }

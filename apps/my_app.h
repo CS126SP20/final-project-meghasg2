@@ -34,6 +34,8 @@ class MyApp : public cinder::app::App {
 
   b2Vec2 gravity;
   b2World* world;
+  b2World* platform_world;
+  b2Vec2 platform_gravity;
   particles::ParticleController particleController;
   Platform platform;
 
