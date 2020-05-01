@@ -99,6 +99,10 @@ void MyApp::keyDown(KeyEvent event) {
       particle_controller_.switch_ = true;
       particle_controller_.SwitchBodyType();
     }
+    case 'e': {
+      particle_controller_.switch_ = true;
+      particle_controller_.SwitchBodySize();
+    }
   }
 }
 

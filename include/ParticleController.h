@@ -23,6 +23,7 @@ class ParticleController {
   void AddParticle(const cinder::ivec2 &mouse_pos, cinder::app::KeyEvent key);
   void RemoveAll();
   void SwitchBodyType();
+  void SwitchBodySize();
 
   bool switch_;
 

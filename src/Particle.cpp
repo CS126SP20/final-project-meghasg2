@@ -32,6 +32,10 @@ void Particle::setup(cinder::vec2 box_size) {
   }
 }
 
+void Particle::resize(cinder::vec2 box_size) {
+  size_ = box_size;
+}
+
 void Particle::update() {
 }
 

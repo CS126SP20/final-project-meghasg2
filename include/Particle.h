@@ -19,6 +19,8 @@ class Particle {
   void update();
   void draw();
 
+  void resize(cinder::vec2 box_size);
+
   b2Body* body_;
   cinder::Color color_;
   cinder::vec2 size_;
