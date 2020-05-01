@@ -10,63 +10,45 @@
 #include "Globals.h"
 
 
-
-
 Platform::Platform() {
-
 }
 
 
-
 void Platform::setup(b2World &w) {
-  world = &w;
+  // Pass world by reference from my_app
+  world_ = &w;
+  // Define a kinematic body
+  body_def.type = b2_kinematicBody;
+  body_def.position.Set(12, 13);
+  body_def.angle = 0;
+  // Use the world to create the body
+  body_ = world_->CreateBody(&body_def);
 
-
-
-
-
-
-
-
-
-
-  bodyDef.type = b2_kinematicBody;
-  bodyDef.position.Set(6, 13);
-  bodyDef.angle = 0;
-  body = world->CreateBody(&bodyDef);
-
-  b2PolygonShape* bodyShape = new b2PolygonShape;
-
-  float boxSizeX =
+  b2PolygonShape* body_shape = new b2PolygonShape;
+  float box_size_X =
       cinder::Rand::randFloat(global::BOX_X_MIN, global::BOX_X_MAX);
-  float boxSizeY =
+  float box_size_Y =
       cinder::Rand::randFloat(global::BOX_Y_MIN, global::BOX_Y_MAX);
 
-  size = cinder::vec2(boxSizeX, boxSizeY);
-
-  // bodyShape->SetAsBox(Conversions::toPhysics(cinder::app::getWindowWidth()/2),
-  //                     Conversions::toPhysics(1.0f));
+  body_shape->SetAsBox(Conversions::ToPhysics(box_size_X),
+                       Conversions::ToPhysics(box_size_Y));
 
 
-  bodyShape->SetAsBox(40.0f, 1.0f);
 
-  b2FixtureDef fixtureDef;
-  fixtureDef.density = 1.0f;
-  fixtureDef.restitution = 1.0f;  // bounce
-  fixtureDef.shape = bodyShape;
-  body->CreateFixture(&fixtureDef);
+  // Define the fixture
+  b2FixtureDef fixture_def;
+  fixture_def.density = 1.0f;
+  fixture_def.shape = body_shape;
+  // Create the fixture on the body
+  body_->CreateFixture(&fixture_def);
 
-  WORLD_TO_BOX = 0.01f;
-  BOX_TO_WORLD = 100.0f;
+  WORLD_TO_BOX_ = 0.01f;
 
-  b2Vec2 vel = body->GetLinearVelocity();
+  b2Vec2 vel = body_->GetLinearVelocity();
   int time = 2.0f;
-
-  vel.x = (0-280)* WORLD_TO_BOX / (time);
-  //vel.y = (100-180)* WORLD_TO_BOX/(time);
-  body->SetLinearVelocity(vel);
-
-
+  vel.x = (0 - 280) * WORLD_TO_BOX_ / (time);
+  // Set the velocity of the platform
+  body_->SetLinearVelocity(vel);
 
 }
 
@@ -75,26 +57,20 @@ void Platform::update() {
 
 void Platform::draw() {
 
-  cinder::gl::color(color);
-  cinder::vec2 pos = Conversions::toScreen(body->GetPosition());
-  float t = Conversions::radiansToDegrees(body->GetAngle());
+  cinder::gl::color(color_);
+  cinder::vec2 pos = Conversions::ToScreen(body_->GetPosition());
+  float t = Conversions::RadianstoDegrees(body_->GetAngle());
   cinder::gl::pushMatrices();
   cinder::gl::translate(pos);
   cinder::gl::rotate(t);
 
-  cinder::Rectf rect(-size.x, -size.y, size.x, size.y);
+  cinder::Rectf rect(-300, -20, 20, 50);
 
   cinder::gl::drawSolidRect(rect);
   cinder::gl::popMatrices();
-
-  // cinder::gl::clear();
-  // cinder::gl::drawSolidCircle( cinder::app::getWindowCenter(), 200 );
-
-
-
 }
 
 
-void Platform::mouse(const cinder::ivec2 mousePosition) {
-  mousepos = mousePosition;
+void Platform::Mouse(const cinder::ivec2 mouse) {
+  mouse_pos = mouse;
 }

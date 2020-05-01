@@ -5,9 +5,12 @@
 #ifndef FINALPROJECT_PARTICLECONTROLLER_H
 #define FINALPROJECT_PARTICLECONTROLLER_H
 
-#include "Particle.h"
 #include <Box2D/Box2D.h>
+#include <cinder/app/KeyEvent.h>
+
 #include <list>
+
+#include "Particle.h"
 
 namespace particles {
 class ParticleController {
@@ -17,14 +20,17 @@ class ParticleController {
   void setup(b2World &w);
   void update();
   void draw();
-  void addParticle(const cinder::ivec2 &mousePos);
-  void removeAll();
+  void AddParticle(const cinder::ivec2 &mouse_pos, cinder::app::KeyEvent key);
+  void RemoveAll();
+  void SwitchBodyType();
+
+  bool switch_;
 
  private:
   // store a pointer to the physics world from the main app
-  b2World *world;
-  std::list<Particle> particles;
-  int count = 0;
+  b2World *world_;
+  std::list<Particle> particles_;
+  int count_ = 0;
 };
 }
 #endif  // FINALPROJECT_PARTICLECONTROLLER_H

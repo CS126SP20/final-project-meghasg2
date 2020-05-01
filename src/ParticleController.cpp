@@ -12,78 +12,79 @@
 #include "cinder/Vector.h"
 
 namespace particles {
-ParticleController::ParticleController() {
-}
+ParticleController::ParticleController() {}
 
-void ParticleController::setup(b2World &w) {
-
-  world = &w;
-}
+void ParticleController::setup(b2World &w) { world_ = &w; }
 
 void ParticleController::draw() {
-  for( std::list<Particle>::iterator p = particles.begin(); p != particles.end(); p++ ){
+  for (std::list<Particle>::iterator p = particles_.begin();
+       p != particles_.end(); p++) {
     p->draw();
   }
 }
 
 void ParticleController::update() {
-  for (std::list<Particle>::iterator p = particles.begin(); p != particles.end(); p++) {
+  for (std::list<Particle>::iterator p = particles_.begin();
+       p != particles_.end(); p++) {
     p->update();
   }
 }
 
-void ParticleController::addParticle(const cinder::ivec2 &mousePos) {
+void ParticleController::AddParticle(const cinder::ivec2 &mouse_pos, cinder::app::KeyEvent key) {
+  Particle p = Particle();
+  b2BodyDef body_def;
+  body_def.type = b2_staticBody;
+  body_def.position.Set(Conversions::ToPhysics(mouse_pos.x),
+                        Conversions::ToPhysics(mouse_pos.y));
 
-    Particle p = Particle();
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(Conversions::toPhysics(mousePos.x),
-                         Conversions::toPhysics(mousePos.y));
+  // instead of just creating body...
+  // b2Body* body = world->CreateBody(&bodyDef);
+  // do the following to create it with a circular reference to it's corresponding particle
+  body_def.userData = &p;
+  p.body_ = world_->CreateBody(&body_def);
 
-    // instead of just creating body...
-    // b2Body* body = world->CreateBody(&bodyDef);
-    // do the following to create it with a circular reference to it's corresponding particle
-    bodyDef.userData = &p;
-    p.body = world->CreateBody(&bodyDef);
+    b2PolygonShape dynamic_box;
 
-    b2PolygonShape dynamicBox;
-    float boxSizeX =
-        cinder::Rand::randFloat(global::BOX_X_MIN, global::BOX_X_MAX);
-    float boxSizeY =
-        cinder::Rand::randFloat(global::BOX_Y_MIN, global::BOX_Y_MAX);
+    dynamic_box.SetAsBox(Conversions::ToPhysics(5.0f),
+                         Conversions::ToPhysics(5.0f));
 
-    dynamicBox.SetAsBox(Conversions::toPhysics(boxSizeX),
-                        Conversions::toPhysics(boxSizeY));
+    b2FixtureDef fixture_def;
+    fixture_def.shape = &dynamic_box;
+    fixture_def.density = 1.0f;
+    fixture_def.friction = 0.3f;
+    fixture_def.restitution = 0.5f;  // bounce
 
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-    fixtureDef.restitution = 0.5f;  // bounce
-
-    p.body->CreateFixture(&fixtureDef);
+    p.body_->CreateFixture(&fixture_def);
 
     // rest of initialization particle can do for itself
-    p.setup(cinder::vec2(boxSizeX, boxSizeY));
-    particles.push_back(p);
+    p.setup(cinder::vec2(5.0f, 5.0f));
+    particles_.push_back(p);
 
 }
 
-void ParticleController::removeAll() {
-  for( std::list<Particle>::iterator p = particles.begin(); p != particles.end(); p++) {
-    world->DestroyBody(p->body);
+void ParticleController::RemoveAll() {
+  for (std::list<Particle>::iterator p = particles_.begin();
+       p != particles_.end(); p++) {
+    world_->DestroyBody(p->body_);
   }
 
-  particles.clear();
+  particles_.clear();
 
-  if (global::COLOR_SCHEME == 0)
-    global::COLOR_SCHEME++;
-  else
-    global::COLOR_SCHEME--;
+  if (global::COLOR_SCHEME == 0) {
+    global::COLOR_SCHEME = 1;
+  } else if (global::COLOR_SCHEME == 1) {
+    global::COLOR_SCHEME = 2;
+  } else if (global::COLOR_SCHEME == 2) {
+    global::COLOR_SCHEME = 0;
+  }
+}
+
+void ParticleController::SwitchBodyType() {
+  for (std::list<Particle>::iterator p = particles_.begin();
+       p != particles_.end(); p++) {
+    p->body_->SetType(b2_dynamicBody);
+  }
 
 }
 
 }
-
-
-

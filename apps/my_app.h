@@ -25,19 +25,19 @@ class MyApp : public cinder::app::App {
   void mouseUp(cinder::app::MouseEvent event) override;
   void mouseDrag(cinder::app::MouseEvent event) override;
 
- private:
-  float width;
-  float height;
-  bool mousePressed;
-  cinder::vec2 mousePos;
-  cinder::vec2 mouseVel;
 
-  b2Vec2 gravity;
-  b2World* world;
-  b2World* platform_world;
-  b2Vec2 platform_gravity;
-  particles::ParticleController particleController;
-  Platform platform;
+ private:
+  float width_;
+  float height_;
+  bool mouse_pressed_;
+  cinder::vec2 mouse_pos_;
+  cinder::vec2 mouse_vel_;
+
+  b2Vec2 gravity_;
+  b2World* world_;
+  particles::ParticleController particle_controller_;
+  Platform platform_;
+  cinder::app::KeyEvent key;
 
 };
 

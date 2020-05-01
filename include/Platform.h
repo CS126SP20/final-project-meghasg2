@@ -16,19 +16,17 @@ class Platform {
   void setup(b2World &w);
   void update();
   void draw();
-  void mouse(const cinder::ivec2 mouse);
+  void Mouse(const cinder::ivec2 mouse);
  private:
-  b2World *world;
-  b2BodyDef bodyDef;
-  b2Body* body;
-  particles::Particle p;
-  cinder::Color color = ci::ColorA(ci::Rand::randFloat(0,.8), 0, 1, 1);
-  cinder::ivec2 mousepos;
-  float WORLD_TO_BOX;
-  float BOX_TO_WORLD;
-
-  cinder::vec2 size;
-
+  b2World *world_;
+  b2BodyDef body_def;
+  b2Body*body_;
+  particles::Particle particle_;
+  cinder::Color color_ = ci::ColorA(
+      ci::Rand::randFloat(0,.2), 0, 1, 1);
+  cinder::ivec2 mouse_pos;
+  float WORLD_TO_BOX_;
+  float BOX_TO_WORLD_;
 };
 
 #endif  // FINALPROJECT_PLATFORM_H

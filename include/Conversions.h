@@ -10,30 +10,27 @@
 
 struct Conversions {
 
-  static float getScaling(){ static float scaling = 50.0f; return scaling; }
-
-  static cinder::vec2 toScreen( b2Vec2 fin )
-  {
-    return cinder::vec2(fin.x, fin.y) * getScaling();
+  static float GetScaling() {
+    static float scaling = 50.0f; return scaling;
   }
 
-  static b2Vec2 toPhysics( cinder::vec2 fin )
-  {
-    return b2Vec2( fin.x/getScaling(), fin.y/getScaling() );
+  static cinder::vec2 ToScreen(b2Vec2 fin) {
+    return cinder::vec2(fin.x, fin.y) * GetScaling();
   }
 
-  static float toPhysics( float fin )
-  {
-    return fin / getScaling();
+  static b2Vec2 ToPhysics(cinder::vec2 fin) {
+    return b2Vec2( fin.x/ GetScaling(), fin.y/ GetScaling() );
   }
 
-  static float toScreen( float fin )
-  {
-    return fin * getScaling();
+  static float ToPhysics(float fin) {
+    return fin / GetScaling();
   }
 
-  static float radiansToDegrees( float rad )
-  {
+  static float ToScreen(float fin) {
+    return fin * GetScaling();
+  }
+
+  static float RadianstoDegrees(float rad) {
     return rad * 180.0f/M_PI;
   }
 };

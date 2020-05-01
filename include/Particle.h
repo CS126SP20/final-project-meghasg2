@@ -15,13 +15,13 @@ class Particle {
   Particle();
   ~Particle();
   // pass in a pointer to the particle
-  void setup(cinder::vec2 boxSize);
+  void setup(cinder::vec2 box_size);
   void update();
   void draw();
 
-  b2Body* body;
-  cinder::Color color;
-  cinder::vec2 size;
+  b2Body* body_;
+  cinder::Color color_;
+  cinder::vec2 size_;
 };
 
 }
