@@ -16,7 +16,7 @@ My project will be an Etch-a-Sketch game. The premise of the game is that the us
 
 I want to do this project because I used to play with Etch-a-Sketch toys as a child and was fascinated by the fact that you could draw whatever you wanted on the screen and erase everything with such ease. 
 
-I will use the [Box2D] (https://github.com/cinder/Cinder/tree/master/blocks/Box2D) CinderBlock, which is a 2D physics engine for games, in order to enhance the graphics of the game and deal with aspects such as gravity (in the case of the particles changing from static bodies to dynamic bodies and falling to the bottom of the GUI with a specific gravity). In order to allow the user to draw items to the GUI using their Trackpad, I will use the MouseEvent and KeyEvent class. 
+I will use the [Box2D](https://github.com/cinder/Cinder/tree/master/blocks/Box2D) CinderBlock, which is a 2D physics engine for games, in order to enhance the graphics of the game and deal with aspects such as gravity (in the case of the particles changing from static bodies to dynamic bodies and falling to the bottom of the GUI with a specific gravity). In order to allow the user to draw items to the GUI using their Trackpad, I will use the MouseEvent and KeyEvent class. 
 
 This is my rough timeline for the project:
 
