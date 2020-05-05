@@ -13,21 +13,42 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include <cinder/Text.h>
+#include <cinder/audio/Voice.h>
+#include <cinder/ImageIo.h>
+
 
 namespace myapp {
 
 using cinder::app::KeyEvent;
 using cinder::Color;
 using cinder::ColorA;
+using cinder::audio::Voice;
+using cinder::gl::Texture;
 
-MyApp::MyApp() : gravity_(0.0f, 10.0f) { world_ = new b2World(gravity_); }
+MyApp::MyApp() : gravity_(0.0f, 10.0f), mouse_pressed_{false} {
+  world_ = new b2World(gravity_);
+}
 
 MyApp::~MyApp() {
   delete world_;
 }
 
 void MyApp::setup() {
-  mouse_pressed_ = false;
+  cinder::audio::SourceFileRef sourceFile = cinder::audio::load(
+      cinder::app::loadAsset( "Invasion-of-the-Giant-Disco-Ants_Looping.mp3" ) );
+  mVoice = cinder::audio::Voice::create( sourceFile );
+
+  // Start playing audio from the voice:
+  mVoice->start();
+
+  auto image = ci::loadImage(loadAsset("image.png"));
+  texture = ci::gl::Texture2d::create(image);
+  texture -> bind();
+
+
+
+
+
   // Define a ground box with no mass
   // Define a body
   b2BodyDef ground_body_def;
@@ -46,29 +67,6 @@ void MyApp::setup() {
   ground_body->CreateFixture(&ground_box, 0.0f);
   // Pass the world to the ParticleController class
   particle_controller_.setup(*world_);
-
-
-/***
-  // Define a platform with no mass
-  // Define a body
-  b2BodyDef platform_ground_body_def;
-  // Set the position to be slightly higher than that of the ground
-  platform_ground_body_def.position.Set(
-      Conversions::ToPhysics(cinder::app::getWindowWidth() / 2),
-      Conversions::ToPhysics(cinder::app::getWindowHeight() /
-                             2));
-  // Use the world to create the body
-  b2Body* platform_ground_body = world_->CreateBody(&platform_ground_body_def);
-  // Define the fixture
-  b2PolygonShape platform_ground_box;
-  platform_ground_box.SetAsBox(
-      Conversions::ToPhysics(cinder::app::getWindowWidth() / 2),
-      Conversions::ToPhysics(1.0f)); // size the ground
-  // Create the fixture on the body
-  platform_ground_body->CreateFixture(&platform_ground_box, 0.0f);
-  platform_.setup(*world_);
-  ***/
-
 }
 
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
@@ -126,7 +124,6 @@ void MyApp::PrintText(const std::string& text, const Color& color, const cinder:
   cinder::gl::draw(texture, locp);
 }
 
-
 void MyApp::update() {
   if (mouse_pressed_) {
     particle_controller_.AddParticle(mouse_pos_, key);
@@ -143,12 +140,14 @@ void MyApp::update() {
 void MyApp::draw() {
     cinder::gl::clear(Color(0, 0, 0));
     cinder::gl::enableAlphaBlending();
+  cinder::gl::draw( texture );
     particle_controller_.draw();
 
-  const cinder::vec2 center = getWindowCenter(); //cinder::vec2(100, 100);
+  /*const cinder::vec2 center = getWindowCenter(); //cinder::vec2(100, 100);
   const cinder::ivec2 size = {500, 500};
   const Color color = Color(0, 0, 1);
-  PrintText(text, color, size, center);
+  PrintText(text, color, size, center);*/
+
 }
 }
 

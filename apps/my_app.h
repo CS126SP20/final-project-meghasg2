@@ -3,12 +3,14 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 
-#include "cinder/app/App.h"
-#include "cinder/gl/gl.h"
 #include <Box2D/Box2D.h>
+#include <cinder/audio/Voice.h>
+
 #include "Conversions.h"
 #include "ParticleController.h"
 #include "Platform.h"
+#include "cinder/app/App.h"
+#include "cinder/gl/gl.h"
 
 namespace myapp {
 
@@ -24,16 +26,17 @@ class MyApp : public cinder::app::App {
   void mouseDown(cinder::app::MouseEvent event) override;
   void mouseUp(cinder::app::MouseEvent event) override;
   void mouseDrag(cinder::app::MouseEvent event) override;
-  void PrintText(const std::string& text, const cinder::Color& color, const cinder::ivec2& size,
-                     const cinder::vec2& loc);
+  void PrintText(const std::string& text, const cinder::Color& color,
+      const cinder::ivec2& size, const cinder::vec2& loc);
+  cinder::audio::VoiceRef mVoice;
+  cinder::gl::TextureRef texture;
+
+
 
 
  private:
-  float width_;
-  float height_;
   bool mouse_pressed_;
   cinder::vec2 mouse_pos_;
-  cinder::vec2 mouse_vel_;
   std::string text = "Key: \n Press the spacebar to clear the screen and "
                      "change the color of the particles \n Press the 'e' key to "
                      "increase the size of the particles \n Press the 's' key to "
@@ -43,6 +46,7 @@ class MyApp : public cinder::app::App {
   particles::ParticleController particle_controller_;
   Platform platform_;
   cinder::app::KeyEvent key;
+
 
 };
 
