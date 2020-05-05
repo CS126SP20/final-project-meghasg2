@@ -25,8 +25,6 @@ class ParticleController {
   void SwitchBodyType();
   void SwitchBodySize();
 
-  bool switch_;
-
  private:
   // store a pointer to the physics world from the main app
   b2World *world_;

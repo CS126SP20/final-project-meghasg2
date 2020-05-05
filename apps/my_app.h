@@ -24,6 +24,8 @@ class MyApp : public cinder::app::App {
   void mouseDown(cinder::app::MouseEvent event) override;
   void mouseUp(cinder::app::MouseEvent event) override;
   void mouseDrag(cinder::app::MouseEvent event) override;
+  void PrintText(const std::string& text, const cinder::Color& color, const cinder::ivec2& size,
+                     const cinder::vec2& loc);
 
 
  private:
@@ -32,7 +34,10 @@ class MyApp : public cinder::app::App {
   bool mouse_pressed_;
   cinder::vec2 mouse_pos_;
   cinder::vec2 mouse_vel_;
-
+  std::string text = "Key: \n Press the spacebar to clear the screen and "
+                     "change the color of the particles \n Press the 'e' key to "
+                     "increase the size of the particles \n Press the 's' key to "
+                     "change the gravity of the particles and have them fall";
   b2Vec2 gravity_;
   b2World* world_;
   particles::ParticleController particle_controller_;

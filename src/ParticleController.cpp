@@ -120,7 +120,7 @@ void ParticleController::SwitchBodyType() {
 void ParticleController::SwitchBodySize() {
   for (std::list<Particle>::iterator p = particles_.begin();
        p != particles_.end(); p++) {
-    p->resize(cinder::vec2(10.0f, 10.0f));
+    p->resize(cinder::vec2(15.0f, 15.0f));
   }
 }
 }

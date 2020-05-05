@@ -12,16 +12,15 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include <cinder/Text.h>
 
 namespace myapp {
 
 using cinder::app::KeyEvent;
 using cinder::Color;
+using cinder::ColorA;
 
-MyApp::MyApp() : gravity_(0.0f, 10.0f) {
-  world_ = new b2World(gravity_);
-  particle_controller_.switch_ = false;
-}
+MyApp::MyApp() : gravity_(0.0f, 10.0f) { world_ = new b2World(gravity_); }
 
 MyApp::~MyApp() {
   delete world_;
@@ -96,15 +95,37 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case 's': {
-      particle_controller_.switch_ = true;
       particle_controller_.SwitchBodyType();
+      break;
     }
     case 'e': {
-      particle_controller_.switch_ = true;
       particle_controller_.SwitchBodySize();
+      break;
     }
   }
 }
+
+void MyApp::PrintText(const std::string& text, const Color& color, const cinder::ivec2& size,
+               const cinder::vec2& loc) {
+  cinder::gl::color(color);
+
+  const char kNormalFont[] = "Arial";
+
+  auto box = ci::TextBox()
+      .alignment(ci::TextBox::CENTER)
+      .font(cinder::Font(kNormalFont, 20))
+      .size(size)
+      .color(color)
+      .backgroundColor(ci::ColorA(0, 0, 0, 0))
+      .text(text);
+
+  const auto box_size = box.getSize();
+  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const auto surface = box.render();
+  const auto texture = cinder::gl::Texture::create(surface);
+  cinder::gl::draw(texture, locp);
+}
+
 
 void MyApp::update() {
   if (mouse_pressed_) {
@@ -123,7 +144,11 @@ void MyApp::draw() {
     cinder::gl::clear(Color(0, 0, 0));
     cinder::gl::enableAlphaBlending();
     particle_controller_.draw();
-    //platform_.draw();
+
+  const cinder::vec2 center = getWindowCenter(); //cinder::vec2(100, 100);
+  const cinder::ivec2 size = {500, 500};
+  const Color color = Color(0, 0, 1);
+  PrintText(text, color, size, center);
 }
 }
 

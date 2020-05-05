@@ -11,5 +11,8 @@
 - **4/30/20** Can change the body of the particles to dynamic (so particles fall with gravity)
     - Need to figure out how to change the shape of the particles once they are drawn 
     - Can change the size of the particles 
-    - Need to create a legend for the GUI and a start screen 
+    - ~~Need to create a legend for the GUI and a start screen~~
+- **5/4/20** Created a legend for the GUI 
+    - Need to add test cases 
+    - Need to add background music 
 ---
