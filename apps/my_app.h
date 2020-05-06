@@ -8,7 +8,6 @@
 
 #include "Conversions.h"
 #include "ParticleController.h"
-#include "Platform.h"
 #include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 
@@ -31,23 +30,18 @@ class MyApp : public cinder::app::App {
   cinder::audio::VoiceRef mVoice;
   cinder::gl::TextureRef texture;
 
-
-
-
  private:
   bool mouse_pressed_;
   cinder::vec2 mouse_pos_;
-  std::string text = "Key: \n Press the spacebar to clear the screen and "
-                     "change the color of the particles \n Press the 'e' key to "
-                     "increase the size of the particles \n Press the 's' key to "
-                     "change the gravity of the particles and have them fall";
+  std::string text = "Welcome to Etch a Sketch! "
+                     "\n Press the spacebar to clear the screen and change the "
+                     "color of the particles"
+                     "\n Press the 'i' key to increase the size of the particles"
+                     "\n Press the 'd' key to decrease the size of the particles"
+                     "\n Press the 's' key to watch the particles fall";
   b2Vec2 gravity_;
   b2World* world_;
   particles::ParticleController particle_controller_;
-  Platform platform_;
-  cinder::app::KeyEvent key;
-
-
 };
 
 }  // namespace myapp

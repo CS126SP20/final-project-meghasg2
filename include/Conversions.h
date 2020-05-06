@@ -8,6 +8,8 @@
 #include "cinder/Vector.h"
 #include "Box2D/Box2D.h"
 
+// Sourced from https://github.com/asaeed/Box2DTest/blob/master/src/Conversions.h
+
 struct Conversions {
 
   static float GetScaling() {

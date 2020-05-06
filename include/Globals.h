@@ -8,18 +8,6 @@
 namespace global {
   extern float BOX_SIZE_X;
   extern float BOX_SIZE_Y;
-  extern float BOX_X_MIN;
-  extern float BOX_X_MAX;
-  extern float BOX_Y_MIN;
-  extern float BOX_Y_MAX;
-
-  extern float MAX_RADIUS;
-  extern float MIN_MASS;
-  extern float MAX_MASS;
-  extern float MIN_BOUNCE;
-  extern float MAX_BOUNCE;
-  extern float GRAVITY;
-
   extern int COLOR_SCHEME;
 }
 

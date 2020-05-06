@@ -18,7 +18,7 @@ Particle::Particle() {
 Particle::~Particle() {
 }
 
-void Particle::setup(cinder::vec2 box_size) {
+int Particle::setup(cinder::vec2 box_size) {
   size_ = box_size;
   if (global::COLOR_SCHEME == 0) {
     // Color of particles changes from red to yellow
@@ -28,12 +28,15 @@ void Particle::setup(cinder::vec2 box_size) {
     // Color of particles changes from blue to violet
     color_ = ci::ColorA(ci::Rand::randFloat(0,.8), 0, 1, 1);
   } else if (global::COLOR_SCHEME == 2) {
+    // Color of particles change from white to cyan
     color_ = ci::ColorA(ci::Rand::randFloat(0,.8), 1, 1, 1);
   }
+  return global::COLOR_SCHEME;
 }
 
-void Particle::resize(cinder::vec2 box_size) {
+cinder::vec2 Particle::resize(cinder::vec2 box_size) {
   size_ = box_size;
+  return size_;
 }
 
 void Particle::update() {
@@ -46,7 +49,6 @@ void Particle::draw() {
   cinder::gl::pushMatrices();
   cinder::gl::translate(pos);
   cinder::gl::rotate(t);
-
   cinder::Rectf rect(-size_.x, -size_.y, size_.x, size_.y);
   cinder::gl::drawSolidRect(rect);
   cinder::gl::popMatrices();

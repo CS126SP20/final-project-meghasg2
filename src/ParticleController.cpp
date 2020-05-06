@@ -14,7 +14,10 @@
 namespace particles {
 ParticleController::ParticleController() {}
 
-void ParticleController::setup(b2World &w) { world_ = &w; }
+b2World* ParticleController::setup(b2World &w) {
+  world_ = &w;
+  return world_;
+}
 
 void ParticleController::draw() {
   for (std::list<Particle>::iterator p = particles_.begin();
@@ -30,51 +33,25 @@ void ParticleController::update() {
   }
 }
 
-void ParticleController::AddParticle(const cinder::ivec2 &mouse_pos, cinder::app::KeyEvent key) {
+void ParticleController::AddParticle(const cinder::ivec2 &mouse_pos) {
   Particle p = Particle();
   b2BodyDef body_def;
   body_def.type = b2_staticBody;
   body_def.position.Set(Conversions::ToPhysics(mouse_pos.x),
                         Conversions::ToPhysics(mouse_pos.y));
-
-  // instead of just creating body...
-  // b2Body* body = world->CreateBody(&bodyDef);
-  // do the following to create it with a circular reference to it's corresponding particle
   body_def.userData = &p;
   p.body_ = world_->CreateBody(&body_def);
-  /***if (key.getChar() == 'c') {
-    b2CircleShape circle_shape;
-    circle_shape.m_p.Set(Conversions::ToPhysics(5.0f),
-                         Conversions::ToPhysics(5.0f));
-    circle_shape.m_radius = 1;
-    b2FixtureDef fixture_def;
-    fixture_def.shape = &circle_shape;
-    fixture_def.density = 1.0f;
-    fixture_def.friction = 0.3f;
-    fixture_def.restitution = 0.5f;  // bounce
-
-    p.body_->CreateFixture(&fixture_def);
-    // rest of initialization particle can do for itself
-    p.setup(cinder::vec2(5.0f, 5.0f));
-    particles_.push_back(p);
-  } else {***/
-    b2PolygonShape dynamic_box;
-
-    dynamic_box.SetAsBox(Conversions::ToPhysics(5.0f),
-                         Conversions::ToPhysics(5.0f));
-
-    b2FixtureDef fixture_def;
-    fixture_def.shape = &dynamic_box;
-    fixture_def.density = 1.0f;
-    fixture_def.friction = 0.3f;
-    fixture_def.restitution = 0.5f;  // bounce
-
-    p.body_->CreateFixture(&fixture_def);
-
-    // rest of initialization particle can do for itself
-    p.setup(cinder::vec2(5.0f, 5.0f));
-    particles_.push_back(p);
-
+  b2PolygonShape dynamic_box;
+  dynamic_box.SetAsBox(Conversions::ToPhysics(global::BOX_SIZE_X),
+                         Conversions::ToPhysics(global::BOX_SIZE_Y));
+  b2FixtureDef fixture_def;
+  fixture_def.shape = &dynamic_box;
+  fixture_def.density = 1.0f;
+  fixture_def.friction = 0.3f;
+  fixture_def.restitution = 0.5f;  // bounce
+  p.body_->CreateFixture(&fixture_def);
+  p.setup(cinder::vec2(global::BOX_SIZE_X, global::BOX_SIZE_Y));
+  particles_.push_back(p);
 }
 
 void ParticleController::RemoveAll() {
@@ -86,41 +63,47 @@ void ParticleController::RemoveAll() {
   particles_.clear();
 
   if (global::COLOR_SCHEME == 0) {
-    global::COLOR_SCHEME = 1;
+    global::COLOR_SCHEME++;
   } else if (global::COLOR_SCHEME == 1) {
-    global::COLOR_SCHEME = 2;
+    global::COLOR_SCHEME++;
   } else if (global::COLOR_SCHEME == 2) {
     global::COLOR_SCHEME = 0;
   }
 }
 
-void ParticleController::SwitchBodyType() {
+b2BodyType ParticleController::SwitchBodyType() {
   for (std::list<Particle>::iterator p = particles_.begin();
        p != particles_.end(); p++) {
     p->body_->SetType(b2_dynamicBody);
-
-
     b2PolygonShape dynamic_box;
-
-    dynamic_box.SetAsBox(Conversions::ToPhysics(10.0f),
-                         Conversions::ToPhysics(10.0f));
-
+    dynamic_box.SetAsBox(Conversions::ToPhysics(global::BOX_SIZE_X + 3),
+                         Conversions::ToPhysics(global::BOX_SIZE_Y + 3));
     b2FixtureDef fixture_def;
     fixture_def.shape = &dynamic_box;
     fixture_def.density = 1.0f;
     fixture_def.friction = 0.3f;
     fixture_def.restitution = 0.5f;  // bounce
-
     p->body_->CreateFixture(&fixture_def);
   }
-
+  return particles_.begin()->body_->GetType();
 }
 
 
-void ParticleController::SwitchBodySize() {
+cinder::vec2 ParticleController::IncreaseBodySize() {
+  cinder::vec2 size = cinder::vec2(8.0f, 8.0f);
   for (std::list<Particle>::iterator p = particles_.begin();
        p != particles_.end(); p++) {
-    p->resize(cinder::vec2(15.0f, 15.0f));
+    p->resize(size);
   }
+  return size;
+}
+
+cinder::vec2 ParticleController::DecreaseBodySize() {
+  cinder::vec2 size = cinder::vec2(2.0f, 2.0f);
+  for (std::list<Particle>::iterator p = particles_.begin();
+       p != particles_.end(); p++) {
+    p->resize(size);
+  }
+  return size;
 }
 }

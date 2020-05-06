@@ -14,5 +14,5 @@
     - ~~Need to create a legend for the GUI and a start screen~~
 - **5/4/20** Created a legend for the GUI 
     - Need to add test cases 
-    - Need to add background music 
+    - ~~Need to add background music~~
 ---
