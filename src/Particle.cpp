@@ -46,13 +46,18 @@ void Particle::update() {
 
 void Particle::draw() {
   cinder::gl::color(color_);
+  // Get position and angle from body and use that to draw to GUI (using OpenGL)
   cinder::vec2 pos = Conversions::ToScreen(body_->GetPosition());
   float t = Conversions::RadianstoDegrees(body_->GetAngle());
+  // Tells OpenGL to store the current state we are in and sets where to start
+  // the current object transformations
   cinder::gl::pushMatrices();
   cinder::gl::translate(pos);
   cinder::gl::rotate(t);
   cinder::Rectf rect(-size_.x, -size_.y, size_.x, size_.y);
   cinder::gl::drawSolidRect(rect);
+  // Tells OpenGL to go back to our previous state and ends the current object
+  // transformations
   cinder::gl::popMatrices();
 }
 }

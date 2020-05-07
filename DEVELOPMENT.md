@@ -15,7 +15,7 @@
 - **5/4/20** Created a legend for the GUI 
     - ~~Need to add test cases~~
     - ~~Need to add background music~~
-- **5/6/20** Finish up 
-    - Need to clean up code/add comments
-    - Need to write README.md 
+- **5/6/20** Added a nicer background and better audio
+    - ~~Need to clean up code/add comments~~
+    - ~~Need to write README.md~~
 ---

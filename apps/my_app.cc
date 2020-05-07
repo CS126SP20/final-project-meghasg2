@@ -21,7 +21,7 @@ using cinder::audio::Voice;
 using cinder::gl::Texture;
 
 MyApp::MyApp() : gravity_(0.0f, 10.0f), mouse_pressed_{false} {
-  world_ = new b2World(gravity_);
+    world_ = new b2World(gravity_);
 }
 
 MyApp::~MyApp() {
@@ -33,9 +33,13 @@ void MyApp::setup() {
   // headphones on
   cinder::audio::SourceFileRef sourceFile = cinder::audio::load(
       cinder::app::loadAsset(
-          "Invasion-of-the-Giant-Disco-Ants_Looping.mp3"));
+          "Valley-Sunrise_Looping.mp3"));
   mVoice = cinder::audio::Voice::create( sourceFile );
   mVoice->start();
+
+  auto image = ci::loadImage(loadAsset("pretty.jpg"));
+  texture_ = ci::gl::Texture2d::create(image);
+  texture_->bind();
 
   // Define a ground box with no mass
   // Define a body
@@ -58,6 +62,7 @@ void MyApp::setup() {
   particle_controller_.setup(*world_);
 }
 
+// Next five functions override functions in the 'AppBase' class
 void MyApp::mouseDown(cinder::app::MouseEvent event) {
   mouse_pressed_ = true;
 }
@@ -80,11 +85,11 @@ void MyApp::keyDown(KeyEvent event) {
       particle_controller_.RemoveAll();
       break;
     }
-    case 's': {
+    case 'a': {
       particle_controller_.SwitchBodyType();
       break;
     }
-    case 'i': {
+    case 's': {
       particle_controller_.IncreaseBodySize();
       break;
     }
@@ -129,6 +134,7 @@ void MyApp::update() {
 void MyApp::draw() {
   cinder::gl::clear(Color(0, 0, 0));
   cinder::gl::enableAlphaBlending();
+  cinder::gl::draw(texture_);
   particle_controller_.draw();
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 500};
