@@ -9,19 +9,19 @@ layout.
 **Author**: Megha Ganesh - [`meghasg2@illinois.edu`](mailto:meghasg2@illinois.edu)
 
 ## Dependencies
-  - [cmake](https://cmake.org/)
-  - [cinder](https://libcinder.org/)
-  - [box2d](https://box2d.org/)
-  - [opengl](https://libcinder.org/docs/guides/opengl/index.html)
+  - [CMake](https://cmake.org/)
+  - [Cinder](https://libcinder.org/)
+  - [Box2D](https://box2d.org/)
+  - [OpenGL](https://libcinder.org/docs/guides/opengl/index.html)
 
 ## Integrated Development Environment
 - The development environment for this project was [CLion](https://www.jetbrains.com/help/clion/quick-tutorial-on-configuring-clion-on-macos.html). 
 
 ## Prerequisites to build and run from either the command line or through CLion
 Disclaimer: This project has only been run/tested on a Mac 
-- Download Cinder[https://libcinder.org/download] for Mac (assume it gets downloaded to a folder called cinder_0.9.2_mac)
+- Download [Cinder](https://libcinder.org/download) for Mac (assume it gets downloaded to a folder called cinder_0.9.2_mac)
 - Create a subdirectory in the cinder_0.9.2_mac folder called "my-projects" 
-- Clone the repository[https://github.com/CS126SP20/final-project-meghasg2] into "my-projects"
+- Clone the [repository](https://github.com/CS126SP20/final-project-meghasg2) into "my-projects"
 
 ## Build and run via command line
 - cd to the project directory 
