@@ -17,7 +17,7 @@ class Particle {
   int setup(cinder::vec2 box_size);
   void update();
   void draw();
-  cinder::vec2 resize(cinder::vec2 box_size);
+  cinder::vec2 resize(const cinder::vec2& box_size);
   b2Body* body_;
   cinder::Color color_;
   cinder::vec2 size_;

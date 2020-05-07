@@ -19,6 +19,8 @@ TEST_CASE("Random sanity test", "[random]") {
 }
 
 TEST_CASE("Test Particle's setup method", "[Particle][setup]") {
+  // Setup returns global::COLOR_SCHEME; make sure this is incremented every
+  // time RemoveAll() is called
   cinder::vec2 size = cinder::vec2(5.0f, 5.0f);
   particles::ParticleController particle_controller;
   particles::Particle particle;
@@ -51,16 +53,14 @@ TEST_CASE("Test ParticleController's DecreaseBodySize method", "[ParticleControl
   REQUIRE(particle_controller.DecreaseBodySize() == size);
 }
 TEST_CASE("Test ParticleController's SwitchBodyType method", "[ParticleController]") {
-  b2World* world = new b2World(b2Vec2(0.0f, 10.0f));
+  auto* world = new b2World(b2Vec2(0.0f, 10.0f));
   particles::ParticleController particle_controller;
   particle_controller.setup(*world);
   particle_controller.AddParticle(cinder::vec2(2.0f, 2.0f));
+  // Need at least one particle in ParticleController's list of Particles
   auto* particle = new particles::Particle();
-
   b2BodyDef body_def;
-
   particle->body_ = world->CreateBody(&body_def);
-
   b2PolygonShape dynamic_box;
   dynamic_box.SetAsBox(Conversions::ToPhysics(global::BOX_SIZE_X + 3),
                        Conversions::ToPhysics(global::BOX_SIZE_Y + 3));
@@ -71,7 +71,6 @@ TEST_CASE("Test ParticleController's SwitchBodyType method", "[ParticleControlle
   fixture_def.restitution = 0.5f;  // bounce
   particle->body_->CreateFixture(&fixture_def);
   particle->body_->SetType(b2_dynamicBody);
-
   REQUIRE(particle->body_->GetType() == particle_controller.SwitchBodyType());
 }
 

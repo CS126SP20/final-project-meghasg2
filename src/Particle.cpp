@@ -34,7 +34,7 @@ int Particle::setup(cinder::vec2 box_size) {
   return global::COLOR_SCHEME;
 }
 
-cinder::vec2 Particle::resize(cinder::vec2 box_size) {
+cinder::vec2 Particle::resize(const cinder::vec2& box_size) {
   size_ = box_size;
   return size_;
 }

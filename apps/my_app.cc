@@ -7,11 +7,7 @@
 #include <cinder/gl/gl.h>
 
 #include "Conversions.h"
-#include "cinder/Log.h"
 #include "cinder/Rand.h"
-#include "cinder/app/App.h"
-#include "cinder/app/RendererGl.h"
-#include "cinder/gl/gl.h"
 #include <cinder/Text.h>
 #include <cinder/audio/Voice.h>
 #include <cinder/ImageIo.h>
@@ -34,16 +30,11 @@ MyApp::~MyApp() {
 }
 
 void MyApp::setup() {
-
+  // This must be commented out if I'm running the app and have headphones on
   /*cinder::audio::SourceFileRef sourceFile = cinder::audio::load(
-      cinder::app::loadAsset( "Invasion-of-the-Giant-Disco-Ants_Looping.mp3" ) );
+      cinder::app::loadAsset("Invasion-of-the-Giant-Disco-Ants_Looping.mp3"));
   mVoice = cinder::audio::Voice::create( sourceFile );
-
-  // Start playing audio from the voice:
-  mVoice->start();
-  auto image = ci::loadImage(loadAsset("image.png"));
-  texture = ci::gl::Texture2d::create(image);
-  texture -> bind();*/
+  mVoice->start();*/
 
   // Define a ground box with no mass
   // Define a body
@@ -102,8 +93,9 @@ void MyApp::keyDown(KeyEvent event) {
   }
 }
 
-void MyApp::PrintText(const std::string& text, const Color& color, const cinder::ivec2& size,
-               const cinder::vec2& loc) {
+// Sourced from snake app
+void MyApp::PrintText(const std::string& text, const Color& color,
+    const cinder::ivec2& size, const cinder::vec2& loc) {
   cinder::gl::color(color);
   const char kNormalFont[] = "Arial";
   auto box = ci::TextBox()
@@ -114,13 +106,16 @@ void MyApp::PrintText(const std::string& text, const Color& color, const cinder:
       .backgroundColor(ci::ColorA(0, 0, 0, 0))
       .text(text);
   const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const cinder::vec2 locp = {
+      loc.x - box_size.x / 2, loc.y - box_size.y / 2};
   const auto surface = box.render();
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
 }
 
 void MyApp::update() {
+  // This must be commented out if I'm running the app and have headphones on
+  //if (!mVoice->isPlaying()) { mVoice->start(); }
   if (mouse_pressed_) {
     particle_controller_.AddParticle(mouse_pos_);
   }
@@ -135,10 +130,8 @@ void MyApp::update() {
 void MyApp::draw() {
   cinder::gl::clear(Color(0, 0, 0));
   cinder::gl::enableAlphaBlending();
-  //cinder::gl::draw( texture );
   particle_controller_.draw();
-
-  const cinder::vec2 center = getWindowCenter(); //cinder::vec2(100, 100);
+  const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 500};
   const Color color = Color(0, 0, 1);
   PrintText(text, color, size, center);

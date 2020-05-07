@@ -3,11 +3,7 @@
 //
 
 #include "ParticleController.h"
-
-#include <list>
-
 #include "Conversions.h"
-#include "cinder/Rand.h"
 #include "Globals.h"
 #include "cinder/Vector.h"
 
@@ -20,16 +16,14 @@ b2World* ParticleController::setup(b2World &w) {
 }
 
 void ParticleController::draw() {
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    p->draw();
+  for (auto & particle : particles_) {
+    particle.draw();
   }
 }
 
 void ParticleController::update() {
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    p->update();
+  for (auto & particle : particles_) {
+    particle.update();
   }
 }
 
@@ -48,20 +42,18 @@ void ParticleController::AddParticle(const cinder::ivec2 &mouse_pos) {
   fixture_def.shape = &dynamic_box;
   fixture_def.density = 1.0f;
   fixture_def.friction = 0.3f;
-  fixture_def.restitution = 0.5f;  // bounce
+  fixture_def.restitution = 0.5f;
   p.body_->CreateFixture(&fixture_def);
   p.setup(cinder::vec2(global::BOX_SIZE_X, global::BOX_SIZE_Y));
   particles_.push_back(p);
 }
 
 void ParticleController::RemoveAll() {
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    world_->DestroyBody(p->body_);
+  for (auto & particle : particles_) {
+    world_->DestroyBody(particle.body_);
   }
-
   particles_.clear();
-
+  // Change color of particles
   if (global::COLOR_SCHEME == 0) {
     global::COLOR_SCHEME++;
   } else if (global::COLOR_SCHEME == 1) {
@@ -72,37 +64,37 @@ void ParticleController::RemoveAll() {
 }
 
 b2BodyType ParticleController::SwitchBodyType() {
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    p->body_->SetType(b2_dynamicBody);
+  for (auto & particle : particles_) {
+    // Set body type to dynamic instead of static
+    particle.body_->SetType(b2_dynamicBody);
     b2PolygonShape dynamic_box;
+    // +3 is to account for the body size increasing/decreasing
     dynamic_box.SetAsBox(Conversions::ToPhysics(global::BOX_SIZE_X + 3),
                          Conversions::ToPhysics(global::BOX_SIZE_Y + 3));
     b2FixtureDef fixture_def;
     fixture_def.shape = &dynamic_box;
     fixture_def.density = 1.0f;
     fixture_def.friction = 0.3f;
-    fixture_def.restitution = 0.5f;  // bounce
-    p->body_->CreateFixture(&fixture_def);
+    fixture_def.restitution = 0.5f;
+    particle.body_->CreateFixture(&fixture_def);
   }
   return particles_.begin()->body_->GetType();
 }
 
-
 cinder::vec2 ParticleController::IncreaseBodySize() {
-  cinder::vec2 size = cinder::vec2(8.0f, 8.0f);
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    p->resize(size);
+  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X + 3,
+      global::BOX_SIZE_X + 3);
+  for (auto & particle : particles_) {
+    particle.resize(size);
   }
   return size;
 }
 
 cinder::vec2 ParticleController::DecreaseBodySize() {
-  cinder::vec2 size = cinder::vec2(2.0f, 2.0f);
-  for (std::list<Particle>::iterator p = particles_.begin();
-       p != particles_.end(); p++) {
-    p->resize(size);
+  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X - 3,
+      global::BOX_SIZE_X - 3);
+  for (auto & particle : particles_) {
+    particle.resize(size);
   }
   return size;
 }
