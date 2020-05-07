@@ -26,10 +26,12 @@ int Particle::setup(cinder::vec2 box_size) {
         1, ci::Rand::randFloat(0,.8), 0, 1);
   } else if (global::COLOR_SCHEME == 1) {
     // Color of particles changes from blue to violet
-    color_ = ci::ColorA(ci::Rand::randFloat(0,.8), 0, 1, 1);
+    color_ = ci::ColorA(ci::Rand::randFloat(
+        0,.8), 0, 1, 1);
   } else if (global::COLOR_SCHEME == 2) {
     // Color of particles change from white to cyan
-    color_ = ci::ColorA(ci::Rand::randFloat(0,.8), 1, 1, 1);
+    color_ = ci::ColorA(ci::Rand::randFloat(
+        0,.8), 1, 1, 1);
   }
   return global::COLOR_SCHEME;
 }

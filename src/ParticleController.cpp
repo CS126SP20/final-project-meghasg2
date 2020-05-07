@@ -40,9 +40,9 @@ void ParticleController::AddParticle(const cinder::ivec2 &mouse_pos) {
                          Conversions::ToPhysics(global::BOX_SIZE_Y));
   b2FixtureDef fixture_def;
   fixture_def.shape = &dynamic_box;
-  fixture_def.density = 1.0f;
-  fixture_def.friction = 0.3f;
-  fixture_def.restitution = 0.5f;
+  fixture_def.density = global::DENSITY;
+  fixture_def.friction = global::FRICTION;
+  fixture_def.restitution = global::RESTITUTION;
   p.body_->CreateFixture(&fixture_def);
   p.setup(cinder::vec2(global::BOX_SIZE_X, global::BOX_SIZE_Y));
   particles_.push_back(p);
@@ -69,21 +69,22 @@ b2BodyType ParticleController::SwitchBodyType() {
     particle.body_->SetType(b2_dynamicBody);
     b2PolygonShape dynamic_box;
     // +3 is to account for the body size increasing/decreasing
-    dynamic_box.SetAsBox(Conversions::ToPhysics(global::BOX_SIZE_X + 3),
-                         Conversions::ToPhysics(global::BOX_SIZE_Y + 3));
+    dynamic_box.SetAsBox(
+        Conversions::ToPhysics(global::BOX_SIZE_X + kSizeDifference),
+        Conversions::ToPhysics(global::BOX_SIZE_Y + kSizeDifference));
     b2FixtureDef fixture_def;
     fixture_def.shape = &dynamic_box;
-    fixture_def.density = 1.0f;
-    fixture_def.friction = 0.3f;
-    fixture_def.restitution = 0.5f;
+    fixture_def.density = global::DENSITY;
+    fixture_def.friction = global::FRICTION;
+    fixture_def.restitution = global::RESTITUTION;
     particle.body_->CreateFixture(&fixture_def);
   }
   return particles_.begin()->body_->GetType();
 }
 
 cinder::vec2 ParticleController::IncreaseBodySize() {
-  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X + 3,
-      global::BOX_SIZE_X + 3);
+  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X + kSizeDifference,
+      global::BOX_SIZE_X + kSizeDifference);
   for (auto & particle : particles_) {
     particle.resize(size);
   }
@@ -91,8 +92,8 @@ cinder::vec2 ParticleController::IncreaseBodySize() {
 }
 
 cinder::vec2 ParticleController::DecreaseBodySize() {
-  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X - 3,
-      global::BOX_SIZE_X - 3);
+  cinder::vec2 size = cinder::vec2(global::BOX_SIZE_X - kSizeDifference,
+      global::BOX_SIZE_X - kSizeDifference);
   for (auto & particle : particles_) {
     particle.resize(size);
   }

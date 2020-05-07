@@ -10,6 +10,9 @@ namespace global {
   extern float BOX_SIZE_X;
   extern float BOX_SIZE_Y;
   extern int COLOR_SCHEME;
+  extern float DENSITY;
+  extern float FRICTION;
+  extern float RESTITUTION;
 }
 
 #endif  // FINALPROJECT_GLOBALS_H

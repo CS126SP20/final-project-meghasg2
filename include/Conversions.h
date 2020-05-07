@@ -9,7 +9,6 @@
 #include "Box2D/Box2D.h"
 
 // Sourced from https://github.com/asaeed/Box2DTest/blob/master/src/Conversions.h
-
 struct Conversions {
 
   static float GetScaling() {
@@ -20,16 +19,8 @@ struct Conversions {
     return cinder::vec2(fin.x, fin.y) * GetScaling();
   }
 
-  static b2Vec2 ToPhysics(cinder::vec2 fin) {
-    return b2Vec2( fin.x/ GetScaling(), fin.y/ GetScaling() );
-  }
-
   static float ToPhysics(float fin) {
     return fin / GetScaling();
-  }
-
-  static float ToScreen(float fin) {
-    return fin * GetScaling();
   }
 
   static float RadianstoDegrees(float rad) {

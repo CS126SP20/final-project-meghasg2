@@ -9,7 +9,6 @@
 #include "Conversions.h"
 #include "cinder/Rand.h"
 #include <cinder/Text.h>
-#include <cinder/audio/Voice.h>
 #include <cinder/ImageIo.h>
 
 
@@ -30,11 +29,13 @@ MyApp::~MyApp() {
 }
 
 void MyApp::setup() {
-  // This must be commented out if I'm running the app and have headphones on
-  /*cinder::audio::SourceFileRef sourceFile = cinder::audio::load(
-      cinder::app::loadAsset("Invasion-of-the-Giant-Disco-Ants_Looping.mp3"));
+  // These three lines must be commented out if I'm running the app and have
+  // headphones on
+  cinder::audio::SourceFileRef sourceFile = cinder::audio::load(
+      cinder::app::loadAsset(
+          "Invasion-of-the-Giant-Disco-Ants_Looping.mp3"));
   mVoice = cinder::audio::Voice::create( sourceFile );
-  mVoice->start();*/
+  mVoice->start();
 
   // Define a ground box with no mass
   // Define a body
@@ -48,8 +49,9 @@ void MyApp::setup() {
   // Define the fixture
   b2PolygonShape ground_box;
   // Box is the size of the ground
-  ground_box.SetAsBox(Conversions::ToPhysics(cinder::app::getWindowWidth() / 2),
-                     Conversions::ToPhysics(1.0f));
+  ground_box.SetAsBox(
+      Conversions::ToPhysics(cinder::app::getWindowWidth() / 2),
+      Conversions::ToPhysics(1.0f));
   // Create the fixture on the body
   ground_body->CreateFixture(&ground_box, 0.0f);
   // Pass the world to the ParticleController class
@@ -115,16 +117,13 @@ void MyApp::PrintText(const std::string& text, const Color& color,
 
 void MyApp::update() {
   // This must be commented out if I'm running the app and have headphones on
-  //if (!mVoice->isPlaying()) { mVoice->start(); }
+  if (!mVoice->isPlaying()) { mVoice->start(); }
   if (mouse_pressed_) {
     particle_controller_.AddParticle(mouse_pos_);
   }
   particle_controller_.update();
   // Step physics world
-  float32 time_step = 1.0f / 60.0f;
-  int32 velocity_iterations = 6;
-  int32 position_iterations = 2;
-  world_->Step(time_step, velocity_iterations, position_iterations);
+  world_->Step(kTimeStep, kVelocityIterations, kPositionIterations);
 }
 
 void MyApp::draw() {
@@ -133,8 +132,8 @@ void MyApp::draw() {
   particle_controller_.draw();
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {500, 500};
-  const Color color = Color(0, 0, 1);
-  PrintText(text, color, size, center);
+  const Color color = Color(1, 1, 1);
+  PrintText(text_, color, size, center);
 }
 }
 

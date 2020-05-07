@@ -28,20 +28,22 @@ class MyApp : public cinder::app::App {
   void PrintText(const std::string& text, const cinder::Color& color,
       const cinder::ivec2& size, const cinder::vec2& loc);
   cinder::audio::VoiceRef mVoice;
-  cinder::gl::TextureRef texture;
 
  private:
   bool mouse_pressed_;
   cinder::vec2 mouse_pos_;
-  std::string text = "Welcome to Etch a Sketch! "
-                     "\n Press the spacebar to clear the screen and change the "
-                     "color of the particles"
+  const std::string text_ = "Welcome to Etch a Sketch!"
+                     "\n Press the spacebar to clear the screen and change the"
+                     " color of the particles"
                      "\n Press the 'i' key to increase the size of the particles"
                      "\n Press the 'd' key to decrease the size of the particles"
                      "\n Press the 's' key to watch the particles fall";
   b2Vec2 gravity_;
   b2World* world_;
   particles::ParticleController particle_controller_;
+  const float32 kTimeStep = 1.0f / 60.0f;
+  const int32 kVelocityIterations = 6;
+  const int32 kPositionIterations = 2;
 };
 
 }  // namespace myapp

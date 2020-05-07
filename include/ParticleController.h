@@ -28,6 +28,8 @@ class ParticleController {
  private:
   b2World *world_;
   std::list<Particle> particles_;
+  const float kSizeDifference = 3.0f;
+
 };
 }
 #endif  // FINALPROJECT_PARTICLECONTROLLER_H

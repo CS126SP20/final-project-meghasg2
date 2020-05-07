@@ -68,7 +68,7 @@ TEST_CASE("Test ParticleController's SwitchBodyType method", "[ParticleControlle
   fixture_def.shape = &dynamic_box;
   fixture_def.density = 1.0f;
   fixture_def.friction = 0.3f;
-  fixture_def.restitution = 0.5f;  // bounce
+  fixture_def.restitution = 0.5f;
   particle->body_->CreateFixture(&fixture_def);
   particle->body_->SetType(b2_dynamicBody);
   REQUIRE(particle->body_->GetType() == particle_controller.SwitchBodyType());
