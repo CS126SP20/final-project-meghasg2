@@ -15,13 +15,13 @@ layout.
   - [OpenGL](https://libcinder.org/docs/guides/opengl/index.html)
 
 ## Integrated Development Environment
-- The development environment for this project was [CLion](https://www.jetbrains.com/help/clion/quick-tutorial-on-configuring-clion-on-macos.html). 
+- The development environment for this project was [CLion](https://www.jetbrains.com/clion/). 
 
 ## Prerequisites to build and run from either the command line or through CLion
-Disclaimer: This project has only been run/tested on a Mac 
-- Download [Cinder](https://libcinder.org/download) for Mac (assume it gets downloaded to a folder called cinder_0.9.2_mac)
+Disclaimer: This project has only been run/tested on MacOS
+- Download [Cinder](https://libcinder.org/download) for MacOS (assume it gets downloaded to a folder called cinder_0.9.2_mac)
 - Create a subdirectory in the cinder_0.9.2_mac folder called "my-projects" 
-- Clone the [repository](https://github.com/CS126SP20/final-project-meghasg2) into "my-projects"
+- Clone the [repository](https://github.com/CS126SP20/final-project-meghasg2) into my-projects
 
 ## Build and run via command line
 - cd to the project directory 
@@ -69,8 +69,8 @@ In this case, try doing Edit configurations -> Executable -> Select Other -> Fin
 | Key        | Action                                                      |
 |------------|-------------------------------------------------------------|
 | `spacebar` | Clear the screen and change the color of the particles      |
-| `i`        | Increase the size of the particles                          |
+| `s`        | Increase the size of the particles                          |
 | `d`        | Decrease the size of the particles                          |
-| `s`        | Change the gravity of the particles and watch them fall     | 
+| `a`        | Change the gravity of the particles and watch them fall     | 
 
 ---
